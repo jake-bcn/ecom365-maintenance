@@ -17,5 +17,4 @@ testData:
   ServiceMaintenancePath:
     - "customer"
   IsFrontendBaseMaintenance: false
-  
   IsDebug: false

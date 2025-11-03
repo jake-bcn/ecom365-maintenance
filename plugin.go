@@ -97,8 +97,8 @@ func (p *MaintenancePlugin) ServeHTTP(rw http.ResponseWriter, req *http.Request)
 	}
 	if isMaintenance {
 		maintenancePage := getMaintenancePage()
+		rw.Header().Set("x-ecom365-maintenance", "true")
 		rw.WriteHeader(http.StatusServiceUnavailable)
-		rw.Header().Add("x-ecom365-maintenance", "true")
 		rw.Write([]byte(maintenancePage))
 		log.Printf("[DEBUG] %s %s in maintenance mode", req.Method, path)
 		return
