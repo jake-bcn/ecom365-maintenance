@@ -5,7 +5,7 @@ import (
 	"io/fs"
 )
 
-//go:embed templates/*.html
+//go:embed templates/*
 var content embed.FS
 
 var maintenancePage string
