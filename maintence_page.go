@@ -1,4 +1,4 @@
-package maintenance
+package ecom365_maintenance
 
 import (
 	"embed"
