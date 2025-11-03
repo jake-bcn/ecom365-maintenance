@@ -1,0 +1,18 @@
+displayName: "ecom365 maintenance"
+type: middleware
+import: github.com/ecom365/maintenance
+summary: "ecom365 maintenance"
+testData:
+  IsEnable: false
+  IsWholeSiteMaintenance: false
+  FrontendMaintenancePath:    
+    - "custom"
+  MerchantMaintenance:
+    - "demo"
+  AdminApiMaintenancePath:    
+    - "admin_merchant"
+  MerchantApiMaintenancePath:
+    - "demo/customer"
+    - "demo2/customer"
+  IsFrontendBaseMaintenance: false 
+  IsDebug: false
