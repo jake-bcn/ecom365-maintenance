@@ -2,6 +2,7 @@ package ecom365_maintenance
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"regexp"
@@ -63,6 +64,7 @@ func (p *MaintenancePlugin) ServeHTTP(rw http.ResponseWriter, req *http.Request)
 			// 判斷是否是  merchant api /api/merchant/{merchant_code}/{service_code}
 			// 正則判斷 isMerchantAPi,  提取 merchant code 和 service code
 			isMerchantAPI, merchantCode, serviceCode := isMerchantAPI(path)
+			fmt.Println(isMerchantAPI, merchantCode, serviceCode, path, isInArray(p.config.MerchantMaintenance, merchantCode))
 			if isMerchantAPI {
 				// 判斷是否 在  MerchantMaintenance 中， 如果是， 就設定 isMaintenance = true
 				if isInArray(p.config.MerchantMaintenance, merchantCode) {
