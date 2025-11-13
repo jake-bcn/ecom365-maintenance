@@ -159,7 +159,7 @@ func getMaintenancePage() string {
                     </div>
                 </div>              
             </div>
-             <div class="footer">power by e-com365</div>
+             <div class="footer">Powered by e-Com365.com</div>
         </div>
     </body>
 </html>
