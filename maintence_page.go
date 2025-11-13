@@ -19,6 +19,7 @@ func getMaintenancePage() string {
 
 	maintenancePage = `
 	
+
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" >
     <head>
@@ -36,10 +37,11 @@ func getMaintenancePage() string {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                min-height: 50vh; /* 确保整个视口高度居中 */
             }
             .main_panel {
-                width: 930px;
-                max-width: 100%;
+                width: 100%; /* 设置最大宽度为700px */
+                max-width: 700px;
                 padding: 16px;
                 flex: 1;
                 display: flex;
@@ -47,8 +49,8 @@ func getMaintenancePage() string {
                 align-items: center;
             }
             .main_icon svg {
-                width: 283px;
-                height: 56px;
+                width: 226px; /* 缩小20%：283 * 0.8 = 226.4 */
+                height: 45px; /* 缩小20%：56 * 0.8 = 44.8 */
             }
             .main_pic {
                 margin-top: 32px;
@@ -81,19 +83,31 @@ func getMaintenancePage() string {
                 font-family: Segoe UI;
                 font-weight: 400;
                 font-size: 24px;
-                /* line-height: 100%; */
                 letter-spacing: 0px;
                 text-align: center;
                 color: rgba(0,0,0,0.9);
             }
 
             /* 模拟媒体查询的 narrow 模式 */
-            body.narrow .main_icon svg { width: 161px; height: 32px; }
+            body.narrow .main_icon svg { 
+                width: 129px; /* 缩小20%：161 * 0.8 = 128.8 */
+                height: 26px; /* 缩小20%：32 * 0.8 = 25.6 */
+            }
             body.narrow .main_pic { margin-top: 40px; }
             body.narrow .main_pic img { width: 162px; height: 200px; }
             body.narrow .main_header p { font-size: 28px; color: rgba(0,0,0,0.87); }
             body.narrow .main_description { margin-top: 16px; }
             body.narrow .main_description p { font-size: 16px; }
+
+            /* 底部版权信息样式 */
+            .footer {
+                margin-top: 40px;
+                text-align: center;
+                font-size: 12px; /* 设置字号为12px */
+                color: #666;
+                position: absolute;
+                bottom: 50px;
+            }
         </style>
     </head>
     <body>
@@ -143,9 +157,9 @@ func getMaintenancePage() string {
                             Thank you for your understanding and support!
                         </p>
                     </div>
-                </div>
-                
+                </div>              
             </div>
+             <div class="footer">power by e-com365</div>
         </div>
     </body>
 </html>
