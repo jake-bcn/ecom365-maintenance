@@ -20,6 +20,8 @@ type Config struct {
 	IsFrontendBaseMaintenance  bool     `json:"isFrontendBaseMaintenance,omitempty"`
 	ServiceMaintenancePath     []string `json:"serviceMaintenance,omitempty"`
 	IgnoreCookieName           string   `json:"ignoreCookieName,omitempty"`
+	IsCmsClientEnable          bool     `json:"isCmsClientEnable,omitempty"`
+	CmsClientHost              string   `json:"cmsClientHost,omitempty"`
 }
 
 // CreateConfig 创建默认配置
@@ -35,6 +37,8 @@ func CreateConfig() *Config {
 		IsFrontendBaseMaintenance:  false,
 		IsDebug:                    false,
 		IgnoreCookieName:           "",
+		IsCmsClientEnable:          false,
+		CmsClientHost:              "",
 	}
 }
 
@@ -69,6 +73,9 @@ func (p *MaintenancePlugin) ServeHTTP(rw http.ResponseWriter, req *http.Request)
 
 	if p.config.IsEnable {
 		if p.config.IsWholeSiteMaintenance {
+			isMaintenance = true
+		} else if p.config.IsCmsClientEnable && req.Host == p.config.CmsClientHost {
+			// cms client
 			isMaintenance = true
 		} else {
 			// /api/merchant/demo/order/order/dashboard/statistics
