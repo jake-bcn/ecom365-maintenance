@@ -19,6 +19,7 @@ type Config struct {
 	IsDebug                    bool     `json:"isDebug,omitempty"`
 	IsFrontendBaseMaintenance  bool     `json:"isFrontendBaseMaintenance,omitempty"`
 	ServiceMaintenancePath     []string `json:"serviceMaintenance,omitempty"`
+	IgnoreCookieName           string   `json:"ignoreCookieName,omitempty"`
 }
 
 // CreateConfig 创建默认配置
@@ -33,6 +34,7 @@ func CreateConfig() *Config {
 		ServiceMaintenancePath:     []string{},
 		IsFrontendBaseMaintenance:  false,
 		IsDebug:                    false,
+		IgnoreCookieName:           "",
 	}
 }
 
@@ -56,6 +58,15 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 func (p *MaintenancePlugin) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	path := req.URL.Path
 	isMaintenance := false
+
+	if p.config.IgnoreCookieName != "" {
+		if cookie, err := req.Cookie(p.config.IgnoreCookieName); err == nil && cookie.Value != "" {
+			isMaintenance = false
+			p.next.ServeHTTP(rw, req)
+			return
+		}
+	}
+
 	if p.config.IsEnable {
 		if p.config.IsWholeSiteMaintenance {
 			isMaintenance = true
