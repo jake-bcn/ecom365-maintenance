@@ -19,5 +19,5 @@ testData:
   IsFrontendBaseMaintenance: false
   IsDebug: false
   IgnoreCookieName: "ignore_maintenance"
-  IsCmsClientEnable:          false
-  CmsClientHost:              "xxx.com"
+  IsCmsClientEnable: false
+  CmsClientHost: "xxx.com"
