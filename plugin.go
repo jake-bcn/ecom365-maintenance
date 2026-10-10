@@ -4,13 +4,16 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"regexp"
+	"strings"
 )
 
 // Config 插件配置
 type Config struct {
 	IsEnable                   bool     `json:"isEnable,omitempty"`
+	MaintenanceHosts           []string `json:"maintenanceHosts,omitempty"`
 	IsWholeSiteMaintenance     bool     `json:"isWholeSiteMaintenance,omitempty"`
 	FrontendMaintenancePath    []string `json:"frontendMaintenancePage,omitempty"`
 	MerchantMaintenance        []string `json:"merchantMaintenance,omitempty"`
@@ -28,6 +31,7 @@ type Config struct {
 func CreateConfig() *Config {
 	return &Config{
 		IsEnable:                   false,
+		MaintenanceHosts:           []string{},
 		IsWholeSiteMaintenance:     false,
 		FrontendMaintenancePath:    []string{},
 		MerchantMaintenance:        []string{},
@@ -72,7 +76,9 @@ func (p *MaintenancePlugin) ServeHTTP(rw http.ResponseWriter, req *http.Request)
 	}
 
 	if p.config.IsEnable {
-		if p.config.IsWholeSiteMaintenance {
+		if isMaintenanceHost(req.Host, p.config.MaintenanceHosts) {
+			isMaintenance = true
+		} else if p.config.IsWholeSiteMaintenance {
 			isMaintenance = true
 		} else if p.config.IsCmsClientEnable && req.Host == p.config.CmsClientHost {
 			// cms client
@@ -127,6 +133,37 @@ func (p *MaintenancePlugin) ServeHTTP(rw http.ResponseWriter, req *http.Request)
 		log.Printf("[DEBUG] %s %s pass", req.Method, path)
 	}
 	p.next.ServeHTTP(rw, req)
+}
+
+func isMaintenanceHost(requestHost string, maintenanceHosts []string) bool {
+	normalizedRequestHost := normalizeHostname(requestHost)
+	if normalizedRequestHost == "" {
+		return false
+	}
+
+	for _, maintenanceHost := range maintenanceHosts {
+		if normalizedRequestHost == normalizeHostname(maintenanceHost) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func normalizeHostname(host string) string {
+	host = strings.TrimSpace(strings.ToLower(host))
+	if host == "" {
+		return ""
+	}
+
+	if parsedHost, _, err := net.SplitHostPort(host); err == nil {
+		host = parsedHost
+	} else {
+		host = strings.TrimPrefix(host, "[")
+		host = strings.TrimSuffix(host, "]")
+	}
+
+	return strings.TrimSuffix(host, ".")
 }
 
 // responseWriter 自定义ResponseWriter用于捕获状态码
