@@ -4,6 +4,9 @@ import: github.com/jake-bcn/ecom365-maintenance
 summary: "ecom365 maintenance"
 testData:
   IsEnable: false
+  MaintenanceHosts:
+    - "365staging.gaxas.ai"
+    - "365staging-admin.gaxas.ai"
   IsWholeSiteMaintenance: false
   FrontendMaintenancePath:    
     - "customer"

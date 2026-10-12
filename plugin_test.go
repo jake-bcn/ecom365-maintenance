@@ -4,8 +4,29 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
+
+func TestMaintenancePageUsesGaxasBranding(t *testing.T) {
+	page := getMaintenancePage()
+
+	for _, expected := range []string{
+		"data:image/svg+xml;base64,",
+		"class=\"brand_logo\"",
+		"alt=\"Gaxas.ai\"",
+		"href=\"https://www.gaxas.ai/\"",
+		">Gaxas.ai</a>",
+	} {
+		if !strings.Contains(page, expected) {
+			t.Fatalf("maintenance page does not contain %q", expected)
+		}
+	}
+
+	if strings.Contains(page, "e-Com365.com") {
+		t.Fatal("maintenance page still contains the old footer branding")
+	}
+}
 
 func TestHostMaintenanceReturns503ForConfiguredHost(t *testing.T) {
 	config := CreateConfig()
