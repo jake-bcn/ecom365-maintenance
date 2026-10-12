@@ -17,6 +17,7 @@ func TestMaintenancePageUsesGaxasBranding(t *testing.T) {
 		"alt=\"Gaxas.ai\"",
 		"href=\"https://www.gaxas.ai/\"",
 		">Gaxas.ai</a>",
+		"<title>Gaxas.ai - Maintenance</title>",
 	} {
 		if !strings.Contains(page, expected) {
 			t.Fatalf("maintenance page does not contain %q", expected)

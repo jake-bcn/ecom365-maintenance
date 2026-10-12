@@ -25,7 +25,7 @@ func getMaintenancePage() string {
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="*"/>
-        <title>e-Com365</title>
+        <title>Gaxas.ai - Maintenance</title>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+SC&display=swap" rel="stylesheet">
         <style>
             body, p {
